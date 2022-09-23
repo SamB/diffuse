@@ -1,0 +1,20 @@
+# Docs: https://www.gitpod.io/docs/config-gitpod-file
+
+image: gitpod/workspace-full-vnc
+  
+
+tasks:
+  - before: |
+      sudo apt-get update
+      PACKAGES="install gettext meson python3-pip libcairo2-dev libgirepository1.0-dev gir1.2-gtk-3.0 gtk-update-icon-cache desktop-file-utils"
+      sudo DEBIAN_FRONTEND=noninteractive apt-get -y $PACKAGES
+    init: |
+      pip install -r requirements.dev.txt
+    command: |
+      meson setup build
+      ninja -C build
+      ninja -C build test
+
+vscode:
+  extensions:
+    - mesonbuild.mesonbuild
